@@ -8,6 +8,10 @@ This repository contains a TypeScript implementation of a business day counter. 
 - **BusinessDayCounter.test.ts**: This file contains the unit tests for the `BusinessDayCounter` class.
 
 ## Usage
+cd into the directory and run the following script.
+```bash
+npm install
+```
 Create an instance of the `BusinessDayCounter` class and use the `WeekdaysBetweenTwoDates` and `BusinessDaysBetweenTwoDates` methods to calculate the number of weekdays and business days between two dates respectively.
 
 ```typescript
