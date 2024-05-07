@@ -54,7 +54,7 @@ export class PublicHolidays {
     getAllHolidays(): Holiday[] {
         return [
             this.shiftingHoliday("New Year's Day", 0, 1), // January 1
-            this.fixedDateHoliday("Australia Day", 0, 26), // January 26
+            this.shiftingHoliday("Australia Day", 0, 26), // January 26
             this.occurrenceHoliday("Labour Day", 2, 1, 1), // First Monday in March
             this.fixedDateHoliday(
                 "Good Friday",
@@ -68,18 +68,18 @@ export class PublicHolidays {
             ), // Date varies, see below
             this.fixedDateHoliday("Anzac Day", 3, 25), // April 25
             this.occurrenceHoliday("King's Birthday", 5, 2, 1), // Second Monday in June
-            this.fixedDateHoliday("Bank Holiday", 7, 1), // First Monday in August
+            this.occurrenceHoliday("Bank Holiday", 7, 1,1), // First Monday in August
             this.occurrenceHoliday("Labour Day", 9, 1, 1), // First Monday in October
             this.shiftingHoliday("Christmas Day", 11, 25), // December 25
             this.shiftingHoliday("Boxing Day", 11, 26), // December 26
         ];
     }
 
-    static getHolidaysForMultipleYears(startYear: number, endYear: number): Holiday[][] {
-        let allYearsHolidays: Holiday[][] = [];
+    static getHolidaysForMultipleYears(startYear: number, endYear: number): Holiday[] {
+        let allYearsHolidays: Holiday[] = [];
         for (let year = startYear; year <= endYear; year++) {
             let publicHolidays = new PublicHolidays(year);
-            allYearsHolidays.push(publicHolidays.getAllHolidays());
+            allYearsHolidays = [...allYearsHolidays, ...publicHolidays.getAllHolidays()];
         }
         return allYearsHolidays;
     }
