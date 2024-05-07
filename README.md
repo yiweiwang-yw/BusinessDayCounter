@@ -34,7 +34,7 @@ let businessDays = counter.BusinessDaysBetweenTwoDates(
     holidaysForMultipleYears
 );
 ```
-Running Tests
+## Running Tests
 To run tests, execute:
 ```bash
 npm run test
