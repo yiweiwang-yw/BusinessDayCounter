@@ -86,6 +86,16 @@ describe("BusinessDayCounter", () => {
         ).toBe(59);
     });
 
+    test("count 1 business day between 7th October 2013 and 9th October 2013 excluding public holidays", () => {
+        expect(
+            counter.BusinessDaysBetweenTwoDates(
+                new Date("2013-10-07"),
+                new Date("2013-10-09"),
+                holidaysForMultipleYears
+            )
+        ).toBe(1);
+    });
+
     test("counts 0 business days when the end date is before the start date", () => {
         expect(
             counter.BusinessDaysBetweenTwoDates(
