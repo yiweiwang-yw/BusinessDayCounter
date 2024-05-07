@@ -7,7 +7,7 @@ describe("BusinessDayCounter", () => {
 
     beforeAll(() => {
         counter = new BusinessDayCounter();
-        holidaysForMultipleYears = PublicHolidays.getHolidaysForMultipleYears(2013, 2015);
+        holidaysForMultipleYears = PublicHolidays.getYearsOfHolidays(2013, 2015);
     });
 
     test("counts 1 weekday between 7th October 2013 and 9th October 2013", () => {

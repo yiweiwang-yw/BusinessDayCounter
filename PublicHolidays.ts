@@ -69,7 +69,7 @@ export class PublicHolidays {
             ), // Date varies, see below
             this.fixedDateHoliday("Anzac Day", 3, 25), // April 25
             this.occurrenceHoliday("King's Birthday", 5, 2, 1), // Second Monday in June
-            this.occurrenceHoliday("Bank Holiday", 7, 1,1), // First Monday in August
+            this.occurrenceHoliday("Bank Holiday", 7, 1, 1), // First Monday in August
             this.occurrenceHoliday("Labour Day", 9, 1, 1), // First Monday in October
             this.shiftingHoliday("Christmas Day", 11, 25), // December 25
             this.shiftingHoliday("Boxing Day", 11, 26), // December 26
@@ -77,14 +77,21 @@ export class PublicHolidays {
 
         for (const holiday of holidaysArray) {
             // Using ISO date string as the key for uniformity
-            let key = holiday.date.toISOString().split('T')[0];
+            let key = holiday.date.toISOString().split("T")[0];
             holidaysMap.set(key, holiday);
         }
 
         return holidaysMap;
     }
 
-    static getHolidaysForMultipleYears(startYear: number, endYear: number): Map<string, Holiday> {
+    static getYearsOfHolidays(
+        startYear: number,
+        endYear?: number
+    ): Map<string, Holiday> {
+        if (endYear === undefined) {
+            endYear = startYear;
+        }
+
         let allYearsHolidaysMap = new Map<string, Holiday>();
         for (let year = startYear; year <= endYear; year++) {
             let publicHolidays = new PublicHolidays(year);
@@ -112,11 +119,12 @@ export class PublicHolidays {
         const m = Math.floor((a + 11 * h + 22 * l) / 451);
         const month = Math.floor((h + l - 7 * m + 114) / 31);
         const day = ((h + l - 7 * m + 114) % 31) + 1;
-        const goodFriday = new Date(Date.UTC(this.year, month - 1, day - 2)).getDate();
-        const easterMonday = new Date(Date.UTC(this.year, month - 1, day + 1)).getDate();
+        const goodFriday = new Date(
+            Date.UTC(this.year, month - 1, day - 2)
+        ).getDate();
+        const easterMonday = new Date(
+            Date.UTC(this.year, month - 1, day + 1)
+        ).getDate();
         return { goodFriday, easterMonday };
     }
 }
-
-let holidaysForMultipleYears = PublicHolidays.getHolidaysForMultipleYears(2013, 2015);
-console.log(holidaysForMultipleYears);
