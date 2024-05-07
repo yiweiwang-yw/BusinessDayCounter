@@ -8,14 +8,14 @@ export class BusinessDayCounter {
 
         let weekdaysCount = 0;
         let currentDate = new Date(
-            firstDate.getFullYear(),
+            Date.UTC(firstDate.getFullYear(),
             firstDate.getMonth(),
-            firstDate.getDate() + 1
+            firstDate.getDate() + 1)
         );
         let endDate = new Date(
-            secondDate.getFullYear(),
+            Date.UTC(secondDate.getFullYear(),
             secondDate.getMonth(),
-            secondDate.getDate()
+            secondDate.getDate())
         );
 
         console.log(`Starting count from: ${currentDate.toDateString()}`);
