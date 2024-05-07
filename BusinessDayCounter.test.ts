@@ -1,10 +1,13 @@
 import { BusinessDayCounter } from "./BusinessDayCounter"; 
+import { Holiday,PublicHolidays } from "./PublicHolidays";
 
 describe("BusinessDayCounter", () => {
     let counter: BusinessDayCounter;
+    let publicHolidays: PublicHolidays;
 
-    beforeEach(() => {
+    beforeAll(() => {
         counter = new BusinessDayCounter();
+        publicHolidays = new PublicHolidays(2013);
     });
 
     test("counts 1 weekday between 7th October 2013 and 9th October 2013", () => {
@@ -54,10 +57,9 @@ describe("BusinessDayCounter", () => {
 
     // Business days tests incorporating public holidays
     test("counts correct business days excluding public holidays", () => {
-        const holidays = [
-            { name: "Christmas Day", date: new Date("2013-12-25") },
-            { name: "Boxing Day", date: new Date("2013-12-26") }
-        ];
+        
+        const holidays = publicHolidays.getAllHolidays();
+        console.log(holidays);
 
         expect(
             counter.BusinessDaysBetweenTwoDates(
