@@ -3,7 +3,7 @@ import { Holiday,PublicHolidays } from "./PublicHolidays";
 
 describe("BusinessDayCounter", () => {
     let counter: BusinessDayCounter;
-    let holidaysForMultipleYears: Holiday[];
+    let holidaysForMultipleYears: Map<string, Holiday>;
 
     beforeAll(() => {
         counter = new BusinessDayCounter();
@@ -58,8 +58,6 @@ describe("BusinessDayCounter", () => {
     // Business days tests incorporating public holidays
     test("counts correct business days excluding public holidays", () => {
         
-        console.log(holidaysForMultipleYears)
-
         expect(
             counter.BusinessDaysBetweenTwoDates(
                 new Date("2013-12-24"),
@@ -70,17 +68,12 @@ describe("BusinessDayCounter", () => {
     });
 
     test("counts 59 business days between 7th October 2013 and 1st January 2014 excluding public holidays", () => {
-        const holidays = [
-            { name: "Christmas Day", date: new Date("2013-12-25") },
-            { name: "Boxing Day", date: new Date("2013-12-26") },
-            { name: "New Year's Day", date: new Date("2014-01-01") }
-        ];
 
         expect(
             counter.BusinessDaysBetweenTwoDates(
                 new Date("2013-10-07"),
                 new Date("2014-01-01"),
-                holidays
+                holidaysForMultipleYears
             )
         ).toBe(59);
     });

@@ -50,7 +50,7 @@ export class BusinessDayCounter {
     BusinessDaysBetweenTwoDates(
         firstDate: Date,
         secondDate: Date,
-        publicHolidays: Holiday[]
+        publicHolidays: Map<string, Holiday>
     ): number {
         if (secondDate <= firstDate) {
             return 0;
@@ -72,12 +72,9 @@ export class BusinessDayCounter {
             )
         );
 
-        const holidaysMap = new Map<string, boolean>();
-        publicHolidays.forEach((holiday) => {
-            holidaysMap.set(holiday.date.toISOString().split("T")[0], true);
-        });
 
         while (currentDate < endDate) {
+            const currentDateKey = currentDate.toISOString().split("T")[0];
             console.log(`Current day is: ${currentDate.toDateString()}`);
             console.log(
                 `currentday is smaller than seconddate: ${
@@ -87,7 +84,7 @@ export class BusinessDayCounter {
             if (
                 currentDate.getDay() >= 1 &&
                 currentDate.getDay() <= 5 &&
-                !holidaysMap.has(currentDate.toISOString().split("T")[0])
+                !publicHolidays.has(currentDateKey)
             ) {
                 businessDaysCount++;
                 console.log("Today got counted.");

@@ -51,8 +51,9 @@ export class PublicHolidays {
     }
 
     // Get all public holidays for the year
-    getAllHolidays(): Holiday[] {
-        return [
+    getAllHolidays(): Map<string, Holiday> {
+        let holidaysMap = new Map<string, Holiday>();
+        let holidaysArray = [
             this.shiftingHoliday("New Year's Day", 0, 1), // January 1
             this.shiftingHoliday("Australia Day", 0, 26), // January 26
             this.occurrenceHoliday("Labour Day", 2, 1, 1), // First Monday in March
@@ -73,15 +74,26 @@ export class PublicHolidays {
             this.shiftingHoliday("Christmas Day", 11, 25), // December 25
             this.shiftingHoliday("Boxing Day", 11, 26), // December 26
         ];
+
+        for (const holiday of holidaysArray) {
+            // Using ISO date string as the key for uniformity
+            let key = holiday.date.toISOString().split('T')[0];
+            holidaysMap.set(key, holiday);
+        }
+
+        return holidaysMap;
     }
 
-    static getHolidaysForMultipleYears(startYear: number, endYear: number): Holiday[] {
-        let allYearsHolidays: Holiday[] = [];
+    static getHolidaysForMultipleYears(startYear: number, endYear: number): Map<string, Holiday> {
+        let allYearsHolidaysMap = new Map<string, Holiday>();
         for (let year = startYear; year <= endYear; year++) {
             let publicHolidays = new PublicHolidays(year);
-            allYearsHolidays = [...allYearsHolidays, ...publicHolidays.getAllHolidays()];
+            let yearlyHolidaysMap = publicHolidays.getAllHolidays();
+            yearlyHolidaysMap.forEach((holiday, date) => {
+                allYearsHolidaysMap.set(date, holiday);
+            });
         }
-        return allYearsHolidays;
+        return allYearsHolidaysMap;
     }
 
     private calculateEaster(): { goodFriday: number; easterMonday: number } {
@@ -105,3 +117,6 @@ export class PublicHolidays {
         return { goodFriday, easterMonday };
     }
 }
+
+let holidaysForMultipleYears = PublicHolidays.getHolidaysForMultipleYears(2013, 2015);
+console.log(holidaysForMultipleYears);
