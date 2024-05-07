@@ -1,13 +1,11 @@
 import { BusinessDayCounter } from "./BusinessDayCounter"; 
 import { Holiday,PublicHolidays } from "./PublicHolidays";
 
-describe("BusinessDayCounter", () => {
+describe("WeekDayCounter", () => {
     let counter: BusinessDayCounter;
-    let holidaysForMultipleYears: Map<string, Holiday>;
 
     beforeAll(() => {
         counter = new BusinessDayCounter();
-        holidaysForMultipleYears = PublicHolidays.getYearsOfHolidays(2013, 2015);
     });
 
     test("counts 1 weekday between 7th October 2013 and 9th October 2013", () => {
@@ -54,8 +52,18 @@ describe("BusinessDayCounter", () => {
             )
         ).toBe(0);
     });
+});
 
-    // Business days tests incorporating public holidays
+
+describe("BusinessDayCounter", () => {
+    let counter: BusinessDayCounter;
+    let holidaysForMultipleYears: Map<string, Holiday>;
+
+    beforeAll(() => {
+        counter = new BusinessDayCounter();
+        holidaysForMultipleYears = PublicHolidays.getYearsOfHolidays(2013, 2015);
+    });
+
     test("counts correct business days excluding public holidays", () => {
         
         expect(
@@ -76,5 +84,15 @@ describe("BusinessDayCounter", () => {
                 holidaysForMultipleYears
             )
         ).toBe(59);
+    });
+
+    test("counts 0 business days when the end date is before the start date", () => {
+        expect(
+            counter.BusinessDaysBetweenTwoDates(
+                new Date("2013-10-07"),
+                new Date("2013-10-05"),
+                holidaysForMultipleYears
+            )
+        ).toBe(0);
     });
 });
